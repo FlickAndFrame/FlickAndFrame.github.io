@@ -1,7 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flick & Frame - Tarot Movie Suggestion</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
+    <div class="container">
+        <h1>Flick & Frame: Tarot Spread to Movie Recommendation</h1>
+
+        <form id="tarotForm">
+            <!-- Tarot Spread Type Selection -->
+            <label for="spreadType">Choose your tarot spread:</label>
+            <select id="spreadType">
+                <option value="single">Single Card</option>
+                <option value="threeCards">3 Cards Spread</option>
+                <option value="celticCross">Celtic Cross</option>
+            </select>
+
+            <!-- Option to Randomize Cards -->
+            <div id="randomizeOption">
+                <label for="randomize">Randomize cards?</label>
+                <input type="checkbox" id="randomize" />
+            </div>
+
+            <!-- Tarot Card Selection -->
+            <div id="cardInputs">
+                <!-- Dynamic card selection or randomized message will be inserted here -->
+            </div>
+
+            <!-- Submit Button -->
+            <button type="button" id="submitTarot">Get Movie Suggestion</button>
+        </form>
+
+        <div id="movieSuggestion"></div>
+    </div>
+
+    <script src="assets/js/tarot.js"></script>
 </body>
 </html>

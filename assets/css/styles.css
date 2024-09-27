@@ -1,0 +1,50 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin: 10px 0;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 1em;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.tarot-card {
+    display: inline-block;
+    margin: 10px;
+    text-align: center;
+}
+
+.tarot-card img {
+    max-width: 100px;
+    display: block;
+    margin: 0 auto;
+}
+
+#movieSuggestion {
+    margin-top: 20px;
+    font-size: 1.2em;
+    color: #333;
+}
