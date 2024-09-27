@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Make an AJAX request to AWS Lambda via API Gateway
-        fetch('https://ffb93g9xme.execute-api.eu-west-3.amazonaws.com/Test/', {  // Replace with your API Gateway URL
+        fetch('arn:aws:execute-api:eu-west-3:084375558781:ffb93g9xme/*/POST/', {  // Replace with your API Gateway URL
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(cardData)
