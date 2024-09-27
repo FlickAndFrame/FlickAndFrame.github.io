@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
     const tarotCards = [
-        { name: "The Fool", img: "assets/images/the-fool.jpg" },
-        { name: "The Magician", img: "assets/images/the-magician.jpg" },
-        { name: "The High Priestess", img: "assets/images/the-high-priestess.jpg" }
+        { name: "The Fool", img: "assets/images/TheFool.jpg" },
+        { name: "The Moon", img: "assets/images/TheMoon.jpg" },
+        { name: "The Hanged Man", img: "assets/images/TheHangedMan.jpg" }
         // Add more cards here
     ];
 
