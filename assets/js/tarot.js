@@ -58,42 +58,43 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 	
     function updateCardInputs(spreadType, randomize) {
-    let inputFields = '';
-    let numCards = 1;
+		let inputFields = '';
+		let numCards = 1;
 
-    if (spreadType === 'threeCards') {
-        numCards = 3;
-    } else if (spreadType === 'celticCross') {
-        numCards = 10;
-    }
+		if (spreadType === 'threeCards') {
+			numCards = 3;
+		} else if (spreadType === 'celticCross') {
+			numCards = 10;
+		}
 
-    if (randomize) {
-        const randomCards = getRandomCards(numCards);
-        randomCards.forEach((card, index) => {
-            inputFields += `
-                <div class="tarot-card">
-                    <img src="${card.img}" alt="${card.name}">
-                    <p>Card ${index + 1}: ${card.name}</p>
-                </div>
-            `;
-        });
-    } else {
-        for (let i = 1; i <= numCards; i++) {
-            inputFields += `
-                <div class="card-selection">
-                    <label for="card${i}">Select card ${i}:</label>
-                    <select id="card${i}" name="card${i}" onchange="updateCardImage(this)">
-                        <option value="">Choose a card</option>
-                        ${tarotCards.map(card => `<option value="${card.name}">${card.name}</option>`).join('')}
-                    </select>
-                    <div class="card-image"></div>
-                </div>
-            `;
-        }
-    }
+		if (randomize) {
+			const randomCards = getRandomCards(numCards);
+			randomCards.forEach((card, index) => {
+				inputFields += `
+					<div class="tarot-card">
+						<img src="${card.img}" alt="${card.name}">
+						<p>Card ${index + 1}: ${card.name}</p>
+					</div>
+				`;
+			});
+		} else {
+			for (let i = 1; i <= numCards; i++) {
+				inputFields += `
+					<div class="card-selection">
+						<label for="card${i}">Select card ${i}:</label>
+						<select id="card${i}" name="card${i}" onchange="updateCardImage(this)">
+							<option value="">Choose a card</option>
+							${tarotCards.map(card => `<option value="${card.name}">${card.name}</option>`).join('')}
+						</select>
+						<div class="card-image"></div>
+					</div>
+				`;
+			}
+		}
 
-    document.getElementById('cardInputs').innerHTML = inputFields;
-}
+		document.getElementById('cardInputs').innerHTML = inputFields;
+	}
+
     function updateCardImage(select) {
 		const cardName = select.value;
 		const cardImageDiv = select.nextElementSibling;
