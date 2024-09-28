@@ -48,3 +48,20 @@ button:hover {
     font-size: 1.2em;
     color: #333;
 }
+
+#randomizeCards {
+    display: block;  /* Ensures the button behaves as a block element */
+    margin: 20px auto;  /* Centers the button horizontally and adds vertical spacing */
+    padding: 10px 20px;  /* Adds some padding to the button */
+    font-size: 16px;  /* Adjusts the font size */
+    background-color: #007BFF;  /* Background color */
+    color: white;  /* Text color */
+    border: none;  /* Removes default border */
+    border-radius: 5px;  /* Rounds the corners */
+    cursor: pointer;  /* Changes the cursor to pointer on hover */
+    text-align: center;  /* Centers the text within the button */
+}
+
+#randomizeCards:hover {
+    background-color: #0056b3;  /* Darker shade on hover */
+}
