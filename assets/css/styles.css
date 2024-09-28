@@ -133,3 +133,31 @@ button:hover {
         max-width: 100px;
     }
 }
+
+/* Add these new styles to your existing CSS file */
+
+.card-selection {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.card-selection select {
+    width: 200px;
+    margin-bottom: 10px;
+}
+
+.card-image {
+    min-height: 150px; /* Adjust this value based on your card image size */
+}
+
+.card-image img {
+    max-width: 100px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.card-image img:hover {
+    transform: scale(1.05);
+}

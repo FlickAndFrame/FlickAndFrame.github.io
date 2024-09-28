@@ -12,21 +12,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
     
 	// Function to update the selected card display
-	function updateSelectedCards(selectedCards) {
+	function updateSelectedCards() {
 		const selectedCardsContainer = document.getElementById('selectedCards');
-		selectedCardsContainer.innerHTML = ''; // Clear previous selections
+		selectedCardsContainer.innerHTML = '';
 
-		selectedCards.forEach(card => {
-			const cardElement = document.createElement('div');
-			cardElement.className = 'selected-card';
-			cardElement.style.margin = '0 10px'; // Spacing between cards
-
-			cardElement.innerHTML = `
-				<img src="${card.img}" alt="${card.name}" style="width: 100px; height: auto;">
-				<p>${card.name}</p>
-			`;
-        
-			selectedCardsContainer.appendChild(cardElement);
+		const selects = document.querySelectorAll('.card-selection select');
+		selects.forEach(select => {
+			if (select.value) {
+				const card = tarotCards.find(c => c.name === select.value);
+				if (card) {
+					const cardElement = document.createElement('div');
+					cardElement.className = 'selected-card';
+					cardElement.style.margin = '0 10px';
+					cardElement.innerHTML = `
+						<img src="${card.img}" alt="${card.name}" style="width: 100px; height: auto;">
+						<p>${card.name}</p>
+					`;
+					selectedCardsContainer.appendChild(cardElement);
+				}
+			}
 		});
 	}
 	
@@ -54,43 +58,55 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 	
     function updateCardInputs(spreadType, randomize) {
-        let inputFields = '';
-        let numCards = 1;
+    let inputFields = '';
+    let numCards = 1;
 
-        if (spreadType === 'threeCards') {
-            numCards = 3;
-        } else if (spreadType === 'celticCross') {
-            numCards = 5;
-        }
-
-        if (randomize) {
-            const randomCards = getRandomCards(numCards);
-            randomCards.forEach((card, index) => {
-                inputFields += `
-                    <div class="tarot-card">
-                        <img src="${card.img}" alt="${card.name}">
-                        <p>Card ${index + 1}: ${card.name}</p>
-                    </div>
-                `;
-            });
-        } else {
-            for (let i = 1; i <= numCards; i++) {
-                inputFields += `<label>Select card ${i}:</label><br>`;
-                tarotCards.forEach(card => {
-                    inputFields += `
-                        <div class="tarot-card">
-                            <input type="radio" name="card${i}" value="${card.name}">
-                            <img src="${card.img}" alt="${card.name}">
-                            <p>${card.name}</p>
-                        </div>
-                    `;
-                });
-            }
-        }
-
-        document.getElementById('cardInputs').innerHTML = inputFields;
+    if (spreadType === 'threeCards') {
+        numCards = 3;
+    } else if (spreadType === 'celticCross') {
+        numCards = 10;
     }
 
+    if (randomize) {
+        const randomCards = getRandomCards(numCards);
+        randomCards.forEach((card, index) => {
+            inputFields += `
+                <div class="tarot-card">
+                    <img src="${card.img}" alt="${card.name}">
+                    <p>Card ${index + 1}: ${card.name}</p>
+                </div>
+            `;
+        });
+    } else {
+        for (let i = 1; i <= numCards; i++) {
+            inputFields += `
+                <div class="card-selection">
+                    <label for="card${i}">Select card ${i}:</label>
+                    <select id="card${i}" name="card${i}" onchange="updateCardImage(this)">
+                        <option value="">Choose a card</option>
+                        ${tarotCards.map(card => `<option value="${card.name}">${card.name}</option>`).join('')}
+                    </select>
+                    <div class="card-image"></div>
+                </div>
+            `;
+        }
+    }
+
+    document.getElementById('cardInputs').innerHTML = inputFields;
+}
+    function updateCardImage(select) {
+		const cardName = select.value;
+		const cardImageDiv = select.nextElementSibling;
+		const card = tarotCards.find(c => c.name === cardName);
+    
+		if (card) {
+			cardImageDiv.innerHTML = `<img src="${card.img}" alt="${card.name}" style="width: 100px; height: auto;">`;
+		} else {
+			cardImageDiv.innerHTML = '';
+		}
+    
+		updateSelectedCards();
+	}
 	document.getElementById('randomizeCards').addEventListener('click', function() {
 		const spreadType = document.getElementById('spreadType').value;
 		let numCards = 1;
@@ -140,24 +156,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Form submission and API call to AWS Lambda
     document.getElementById('submitTarot').addEventListener('click', function() {
-        const spreadType = document.getElementById('spreadType').value;
-        const randomize = document.getElementById('randomize').checked;
-        let cardData = {};
+		const spreadType = document.getElementById('spreadType').value;
+		const randomize = document.getElementById('randomize').checked;
+		let cardData = {};
 
-        if (randomize) {
-            cardData.randomize = true;
-            cardData.spreadType = spreadType;
-        } else {
-            cardData.randomize = false;
-            cardData.cards = [];
-            const numCards = spreadType === 'single' ? 1 : (spreadType === 'threeCards' ? 3 : 10);
-            for (let i = 1; i <= numCards; i++) {
-                const selectedCard = document.querySelector(`input[name="card${i}"]:checked`);
-                if (selectedCard) {
-                    cardData.cards.push(selectedCard.value);
-                }
-            }
-        }
+		if (randomize) {
+			cardData.randomize = true;
+			cardData.spreadType = spreadType;
+		} else {
+			cardData.randomize = false;
+			cardData.cards = [];
+			const selects = document.querySelectorAll('.card-selection select');
+			selects.forEach(select => {
+				if (select.value) {
+					cardData.cards.push(select.value);
+				}
+			});
+		}
 
         // Make an AJAX request to AWS Lambda via API Gateway
         fetch('https://ffb93g9xme.execute-api.eu-west-3.amazonaws.com/Deploy', {  // Replace with your API Gateway URL
