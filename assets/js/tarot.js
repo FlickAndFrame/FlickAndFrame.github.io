@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', function() {
         randomizeButton.style.display = 'block'; // Show the button
      } else {
         randomizeButton.style.display = 'none'; // Hide the button
-        // document.getElementById('cardInputs').innerHTML = ''; // Clear the card inputs when unchecked
+        document.getElementById('cardInputs').innerHTML = ''; // Clear the card inputs when unchecked
      }
 	});
 
