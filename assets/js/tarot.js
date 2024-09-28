@@ -98,13 +98,13 @@ document.addEventListener('DOMContentLoaded', function() {
 		const cardName = select.value;
 		const cardImageDiv = select.nextElementSibling;
 		const card = tarotCards.find(c => c.name === cardName);
-    
+
 		if (card) {
 			cardImageDiv.innerHTML = `<img src="${card.img}" alt="${card.name}" style="width: 100px; height: auto;">`;
 		} else {
 			cardImageDiv.innerHTML = '';
 		}
-    
+
 		updateSelectedCards();
 	}
 	document.getElementById('randomizeCards').addEventListener('click', function() {
@@ -136,22 +136,17 @@ document.addEventListener('DOMContentLoaded', function() {
 	});
 	
     document.getElementById('randomize').addEventListener('change', function() {
-        const spreadType = document.getElementById('spreadType').value;
-        const randomize = this.checked;
-        updateCardInputs(spreadType, randomize);
-    });
-	
-	document.getElementById('randomize').addEventListener('change', function() {
-     const isChecked = this.checked;
-     const randomizeButton = document.getElementById('randomizeCards');
+		const spreadType = document.getElementById('spreadType').value;
+		const randomize = this.checked;
+		updateCardInputs(spreadType, randomize);
 
-     // Show or hide the button based on the checkbox state
-     if (isChecked) {
-        randomizeButton.style.display = 'block'; // Show the button
-     } else {
-        randomizeButton.style.display = 'none'; // Hide the button
-        document.getElementById('cardInputs').innerHTML = ''; // Clear the card inputs when unchecked
-     }
+		const randomizeButton = document.getElementById('randomizeCards');
+		if (randomize) {
+			randomizeButton.style.display = 'block';
+		} else {
+			randomizeButton.style.display = 'none';
+			updateCardInputs(spreadType, false); // This line ensures dropdown menus reappear
+		}
 	});
 
     // Form submission and API call to AWS Lambda
