@@ -10,7 +10,32 @@ document.addEventListener('DOMContentLoaded', function() {
         return tarotCards.sort(() => 0.5 - Math.random()).slice(0, num);
     }
 
+    
+	// Function to update the selected card display
+	function updateSelectedCards(selectedCards) {
+		const selectedCardsContainer = document.getElementById('selectedCards');
+		selectedCardsContainer.innerHTML = ''; // Clear previous selections
 
+		selectedCards.forEach(card => {
+			const cardElement = document.createElement('div');
+			cardElement.className = 'selected-card';
+			cardElement.style.margin = '0 10px'; // Spacing between cards
+
+			cardElement.innerHTML = `
+				<img src="${card.img}" alt="${card.name}" style="width: 100px; height: auto;">
+				<p>${card.name}</p>
+			`;
+        
+			selectedCardsContainer.appendChild(cardElement);
+		});
+	}
+	
+	// Function to handle card selection
+	function selectCard(cardName) {
+		const selectedCards = [...document.querySelectorAll('.tarot-card input:checked')].map(input => input.value);
+		updateSelectedCards(selectedCards);
+	}
+	
 	function randomizeCards(numCards) {
 		const randomCards = getRandomCards(numCards);
 		// Update the card inputs with random selections
@@ -24,6 +49,8 @@ document.addEventListener('DOMContentLoaded', function() {
 			`;
 		});
 		document.getElementById('cardInputs').innerHTML = inputFields;
+		// Clear the selected cards when new cards are randomized
+		document.getElementById('selectedCards').innerHTML = '';
 	}
 	
     function updateCardInputs(spreadType, randomize) {
@@ -33,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (spreadType === 'threeCards') {
             numCards = 3;
         } else if (spreadType === 'celticCross') {
-            numCards = 10;
+            numCards = 5;
         }
 
         if (randomize) {
@@ -84,6 +111,14 @@ document.addEventListener('DOMContentLoaded', function() {
         updateCardInputs(spreadType, randomize);
     });
 
+
+	// Update the event listener to call the selectCard function when a card is chosen
+	document.querySelectorAll('input[name^="card"]').forEach(input => {
+		input.addEventListener('change', function() {
+			selectCard(this.value);
+		});
+	});
+	
     document.getElementById('randomize').addEventListener('change', function() {
         const spreadType = document.getElementById('spreadType').value;
         const randomize = this.checked;

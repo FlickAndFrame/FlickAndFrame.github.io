@@ -65,3 +65,19 @@ button:hover {
 #randomizeCards:hover {
     background-color: #0056b3;  /* Darker shade on hover */
 }
+
+#selectedCards {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.selected-card {
+    margin: 0 10px; /* Spacing between cards */
+    text-align: center; /* Center-align text under the images */
+}
+
+.selected-card img {
+    width: 100px; /* Width of the images */
+    height: auto; /* Maintain aspect ratio */
+}
