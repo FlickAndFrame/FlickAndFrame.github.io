@@ -133,3 +133,63 @@ button:hover {
         max-width: 100px;
     }
 }
+
+/* ... (keep the previous styles) ... */
+
+#cardSelectionArea {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.card-column {
+    flex: 1;
+    min-width: 150px;
+    margin: 0 10px;
+}
+
+.card-select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+#selectedCards {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.selected-card {
+    margin: 10px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.selected-card:hover {
+    transform: scale(1.05);
+}
+
+.selected-card img {
+    width: 120px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.selected-card p {
+    margin-top: 5px;
+    font-weight: bold;
+    color: #34495e;
+}
+
+@media (max-width: 600px) {
+    .card-column {
+        min-width: 100%;
+    }
+}

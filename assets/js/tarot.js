@@ -11,48 +11,77 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     
-	// Function to update the selected card display
-	function updateSelectedCards(selectedCards) {
-		const selectedCardsContainer = document.getElementById('selectedCards');
-		selectedCardsContainer.innerHTML = ''; // Clear previous selections
+    function updateCardSelectionArea(spreadType, randomize) {
+        const cardSelectionArea = document.getElementById('cardSelectionArea');
+        cardSelectionArea.innerHTML = '';
 
-		selectedCards.forEach(card => {
-			const cardElement = document.createElement('div');
-			cardElement.className = 'selected-card';
-			cardElement.style.margin = '0 10px'; // Spacing between cards
+        if (randomize) {
+            cardSelectionArea.style.display = 'none';
+            return;
+        }
 
-			cardElement.innerHTML = `
-				<img src="${card.img}" alt="${card.name}" style="width: 100px; height: auto;">
-				<p>${card.name}</p>
-			`;
-        
-			selectedCardsContainer.appendChild(cardElement);
-		});
-	}
-	
-	// Function to handle card selection
-	function selectCard(cardName) {
-		const selectedCards = [...document.querySelectorAll('.tarot-card input:checked')].map(input => input.value);
-		updateSelectedCards(selectedCards);
-	}
-	
-	function randomizeCards(numCards) {
-		const randomCards = getRandomCards(numCards);
-		// Update the card inputs with random selections
-		let inputFields = '';
-		randomCards.forEach(card => {
-			inputFields += `
-				<div class="tarot-card">
-					<img src="${card.img}" alt="${card.name}">
-					<p>${card.name}</p>
-				</div>
-			`;
-		});
-		document.getElementById('cardInputs').innerHTML = inputFields;
-		// Clear the selected cards when new cards are randomized
-		document.getElementById('selectedCards').innerHTML = '';
-	}
-	
+        cardSelectionArea.style.display = 'flex';
+        let numCards = spreadType === 'single' ? 1 : (spreadType === 'threeCards' ? 3 : 10);
+
+        for (let i = 1; i <= numCards; i++) {
+            const column = document.createElement('div');
+            column.className = 'card-column';
+
+            const select = document.createElement('select');
+            select.className = 'card-select';
+            select.id = `card${i}`;
+            select.innerHTML = '<option value="">Select a card</option>';
+
+            tarotCards.forEach(card => {
+                const option = document.createElement('option');
+                option.value = card.name;
+                option.textContent = card.name;
+                select.appendChild(option);
+            });
+
+            select.addEventListener('change', updateSelectedCards);
+
+            column.appendChild(select);
+            cardSelectionArea.appendChild(column);
+        }
+    }
+
+    function updateSelectedCards() {
+        const selectedCardsContainer = document.getElementById('selectedCards');
+        selectedCardsContainer.innerHTML = '';
+
+        const selects = document.querySelectorAll('.card-select');
+        selects.forEach(select => {
+            if (select.value) {
+                const card = tarotCards.find(c => c.name === select.value);
+                if (card) {
+                    const cardElement = document.createElement('div');
+                    cardElement.className = 'selected-card';
+                    cardElement.innerHTML = `
+                        <img src="${card.img}" alt="${card.name}">
+                        <p>${card.name}</p>
+                    `;
+                    selectedCardsContainer.appendChild(cardElement);
+                }
+            }
+        });
+    }
+
+    function randomizeCards(numCards) {
+        const randomCards = getRandomCards(numCards);
+        const selectedCardsContainer = document.getElementById('selectedCards');
+        selectedCardsContainer.innerHTML = '';
+
+        randomCards.forEach(card => {
+            const cardElement = document.createElement('div');
+            cardElement.className = 'selected-card';
+            cardElement.innerHTML = `
+                <img src="${card.img}" alt="${card.name}">
+                <p>${card.name}</p>
+            `;
+            selectedCardsContainer.appendChild(cardElement);
+        });
+    }
     function updateCardInputs(spreadType, randomize) {
         let inputFields = '';
         let numCards = 1;
@@ -104,13 +133,6 @@ document.addEventListener('DOMContentLoaded', function() {
     randomizeCards(numCards); // Call the randomization function
 	});
 
-    // Update form when the spread type or randomize option changes
-    document.getElementById('spreadType').addEventListener('change', function() {
-        const spreadType = this.value;
-        const randomize = document.getElementById('randomize').checked;
-        updateCardInputs(spreadType, randomize);
-    });
-
 
 	// Update the event listener to call the selectCard function when a card is chosen
 	document.querySelectorAll('input[name^="card"]').forEach(input => {
@@ -119,24 +141,25 @@ document.addEventListener('DOMContentLoaded', function() {
 		});
 	});
 	
+    document.getElementById('spreadType').addEventListener('change', function() {
+        const spreadType = this.value;
+        const randomize = document.getElementById('randomize').checked;
+        updateCardSelectionArea(spreadType, randomize);
+    });
+
     document.getElementById('randomize').addEventListener('change', function() {
         const spreadType = document.getElementById('spreadType').value;
         const randomize = this.checked;
-        updateCardInputs(spreadType, randomize);
+        updateCardSelectionArea(spreadType, randomize);
+        document.getElementById('randomizeCards').style.display = randomize ? 'block' : 'none';
+        document.getElementById('selectedCards').innerHTML = '';
     });
-	
-	document.getElementById('randomize').addEventListener('change', function() {
-     const isChecked = this.checked;
-     const randomizeButton = document.getElementById('randomizeCards');
 
-     // Show or hide the button based on the checkbox state
-     if (isChecked) {
-        randomizeButton.style.display = 'block'; // Show the button
-     } else {
-        randomizeButton.style.display = 'none'; // Hide the button
-        document.getElementById('cardInputs').innerHTML = ''; // Clear the card inputs when unchecked
-     }
-	});
+    document.getElementById('randomizeCards').addEventListener('click', function() {
+        const spreadType = document.getElementById('spreadType').value;
+        let numCards = spreadType === 'single' ? 1 : (spreadType === 'threeCards' ? 3 : 10);
+        randomizeCards(numCards);
+    });
 
     // Form submission and API call to AWS Lambda
     document.getElementById('submitTarot').addEventListener('click', function() {
