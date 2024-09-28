@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', function() {
         return tarotCards.sort(() => 0.5 - Math.random()).slice(0, num);
     }
 
-    
     function updateCardSelectionArea(spreadType, randomize) {
         const cardSelectionArea = document.getElementById('cardSelectionArea');
         cardSelectionArea.innerHTML = '';
@@ -82,65 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
             selectedCardsContainer.appendChild(cardElement);
         });
     }
-    function updateCardInputs(spreadType, randomize) {
-        let inputFields = '';
-        let numCards = 1;
 
-        if (spreadType === 'threeCards') {
-            numCards = 3;
-        } else if (spreadType === 'celticCross') {
-            numCards = 5;
-        }
-
-        if (randomize) {
-            const randomCards = getRandomCards(numCards);
-            randomCards.forEach((card, index) => {
-                inputFields += `
-                    <div class="tarot-card">
-                        <img src="${card.img}" alt="${card.name}">
-                        <p>Card ${index + 1}: ${card.name}</p>
-                    </div>
-                `;
-            });
-        } else {
-            for (let i = 1; i <= numCards; i++) {
-                inputFields += `<label>Select card ${i}:</label><br>`;
-                tarotCards.forEach(card => {
-                    inputFields += `
-                        <div class="tarot-card">
-                            <input type="radio" name="card${i}" value="${card.name}">
-                            <img src="${card.img}" alt="${card.name}">
-                            <p>${card.name}</p>
-                        </div>
-                    `;
-                });
-            }
-        }
-
-        document.getElementById('cardInputs').innerHTML = inputFields;
-    }
-
-	document.getElementById('randomizeCards').addEventListener('click', function() {
-		const spreadType = document.getElementById('spreadType').value;
-		let numCards = 1;
-
-		if (spreadType === 'threeCards') {
-			numCards = 3;
-		} else if (spreadType === 'celticCross') {
-			numCards = 10;
-		}
-
-    randomizeCards(numCards); // Call the randomization function
-	});
-
-
-	// Update the event listener to call the selectCard function when a card is chosen
-	document.querySelectorAll('input[name^="card"]').forEach(input => {
-		input.addEventListener('change', function() {
-			selectCard(this.value);
-		});
-	});
-	
     document.getElementById('spreadType').addEventListener('change', function() {
         const spreadType = this.value;
         const randomize = document.getElementById('randomize').checked;
@@ -161,7 +102,6 @@ document.addEventListener('DOMContentLoaded', function() {
         randomizeCards(numCards);
     });
 
-    // Form submission and API call to AWS Lambda
     document.getElementById('submitTarot').addEventListener('click', function() {
         const spreadType = document.getElementById('spreadType').value;
         const randomize = document.getElementById('randomize').checked;
@@ -173,41 +113,36 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             cardData.randomize = false;
             cardData.cards = [];
-            const numCards = spreadType === 'single' ? 1 : (spreadType === 'threeCards' ? 3 : 10);
-            for (let i = 1; i <= numCards; i++) {
-                const selectedCard = document.querySelector(`input[name="card${i}"]:checked`);
-                if (selectedCard) {
-                    cardData.cards.push(selectedCard.value);
+            const selects = document.querySelectorAll('.card-select');
+            selects.forEach(select => {
+                if (select.value) {
+                    cardData.cards.push(select.value);
                 }
-            }
+            });
         }
 
         // Make an AJAX request to AWS Lambda via API Gateway
-        fetch('https://ffb93g9xme.execute-api.eu-west-3.amazonaws.com/Deploy', {  // Replace with your API Gateway URL
+        fetch('https://ffb93g9xme.execute-api.eu-west-3.amazonaws.com/Deploy', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(cardData)
         })
         .then(response => {
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          return response.json();
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
         })
         .then(data => {
-           // Extract the body from the response
-           const suggestion = JSON.parse(data.body);
-
-           // Display the suggestion in a properly formatted manner
-           document.getElementById("movieSuggestion").innerHTML = suggestion.body
-            .replace(/\n/g, "<br>"); // Replace newline characters with <br> tags
+            const suggestion = JSON.parse(data.body);
+            document.getElementById("movieSuggestion").innerHTML = suggestion.body.replace(/\n/g, "<br>");
         })
         .catch(error => {
-           console.error('Error retrieving movie suggestion:', error);
-           document.getElementById("movieSuggestion").innerHTML = "Error retrieving movie suggestion.";
+            console.error('Error retrieving movie suggestion:', error);
+            document.getElementById("movieSuggestion").innerHTML = "Error retrieving movie suggestion.";
         });
     });
 
     // Initialize with default values
-    updateCardInputs(document.getElementById('spreadType').value, document.getElementById('randomize').checked);
+    updateCardSelectionArea(document.getElementById('spreadType').value, document.getElementById('randomize').checked);
 });
