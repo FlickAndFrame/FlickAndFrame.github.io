@@ -1,90 +1,135 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+    line-height: 1.6;
 }
 
 .container {
-    width: 80%;
+    max-width: 800px;
     margin: 0 auto;
-    text-align: center;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-radius: 8px;
 }
 
 h1 {
-    font-size: 2em;
-    margin-bottom: 20px;
+    font-size: 2.5em;
+    color: #2c3e50;
+    margin-bottom: 30px;
+    text-align: center;
 }
 
 label {
     display: block;
-    margin: 10px 0;
+    margin: 15px 0 5px;
+    font-weight: bold;
+    color: #34495e;
+}
+
+select, button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+    font-size: 1em;
 }
 
 button {
-    padding: 10px 20px;
-    font-size: 1em;
-    background-color: #007BFF;
+    background-color: #3498db;
     color: white;
     border: none;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #2980b9;
 }
 
 .tarot-card {
     display: inline-block;
     margin: 10px;
     text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.tarot-card:hover {
+    transform: scale(1.05);
 }
 
 .tarot-card img {
-    max-width: 100px;
-    display: block;
-    margin: 0 auto;
+    max-width: 120px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
 #movieSuggestion {
-    margin-top: 20px;
+    margin-top: 30px;
     font-size: 1.2em;
-    color: #333;
+    color: #2c3e50;
+    padding: 20px;
+    background-color: #ecf0f1;
+    border-radius: 8px;
 }
 
 #randomizeCards {
-    display: block;  /* Ensures the button behaves as a block element */
-    margin: 20px auto;  /* Centers the button horizontally and adds vertical spacing */
-    padding: 10px 20px;  /* Adds some padding to the button */
-    font-size: 16px;  /* Adjusts the font size */
-    background-color: #007BFF;  /* Background color */
-    color: white;  /* Text color */
-    border: none;  /* Removes default border */
-    border-radius: 5px;  /* Rounds the corners */
-    cursor: pointer;  /* Changes the cursor to pointer on hover */
-    text-align: center;  /* Centers the text within the button */
+    display: block;
+    margin: 20px auto;
+    padding: 12px 24px;
+    font-size: 16px;
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 #randomizeCards:hover {
-    background-color: #0056b3;  /* Darker shade on hover */
+    background-color: #27ae60;
 }
 
 #selectedCards {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
     margin-top: 20px;
 }
 
 .selected-card {
-    margin: 0 10px; /* Spacing between cards */
-    text-align: center; /* Center-align text under the images */
+    margin: 10px;
+    text-align: center;
 }
 
 .selected-card img {
-    width: 100px; /* Width of the images */
-    height: auto; /* Maintain aspect ratio */
+    width: 100px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
 #logo {
-    width: 100px; /* Adjust the width as necessary */
-    height: auto; /* Maintain aspect ratio */
-    margin: 20px 0; /* Add some margin around the logo */
-    display: block; /* Ensure it displays correctly */
+    width: 120px;
+    height: auto;
+    margin: 20px auto;
+    display: block;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 10px;
+    }
+    
+    h1 {
+        font-size: 2em;
+    }
+    
+    .tarot-card img {
+        max-width: 100px;
+    }
 }
