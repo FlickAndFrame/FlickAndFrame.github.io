@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 
     randomizeCards(numCards); // Call the randomization function
-});
+	});
 
     // Update form when the spread type or randomize option changes
     document.getElementById('spreadType').addEventListener('change', function() {
@@ -89,9 +89,18 @@ document.addEventListener('DOMContentLoaded', function() {
         const randomize = this.checked;
         updateCardInputs(spreadType, randomize);
     });
+	
 	document.getElementById('randomize').addEventListener('change', function() {
-		const isChecked = this.checked;
-		document.getElementById('randomizeCards').style.display = isChecked ? 'block' : 'none'; // Show or hide the button
+     const isChecked = this.checked;
+     const randomizeButton = document.getElementById('randomizeCards');
+
+     // Show or hide the button based on the checkbox state
+     if (isChecked) {
+        randomizeButton.style.display = 'block'; // Show the button
+     } else {
+        randomizeButton.style.display = 'none'; // Hide the button
+        document.getElementById('cardInputs').innerHTML = ''; // Clear the card inputs when unchecked
+     }
 	});
 
     // Form submission and API call to AWS Lambda
