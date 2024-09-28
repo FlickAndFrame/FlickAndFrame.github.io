@@ -10,6 +10,22 @@ document.addEventListener('DOMContentLoaded', function() {
         return tarotCards.sort(() => 0.5 - Math.random()).slice(0, num);
     }
 
+
+	function randomizeCards(numCards) {
+		const randomCards = getRandomCards(numCards);
+		// Update the card inputs with random selections
+		let inputFields = '';
+		randomCards.forEach(card => {
+			inputFields += `
+				<div class="tarot-card">
+					<img src="${card.img}" alt="${card.name}">
+					<p>${card.name}</p>
+				</div>
+			`;
+		});
+		document.getElementById('cardInputs').innerHTML = inputFields;
+	}
+	
     function updateCardInputs(spreadType, randomize) {
         let inputFields = '';
         let numCards = 1;
@@ -48,6 +64,19 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('cardInputs').innerHTML = inputFields;
     }
 
+	document.getElementById('randomizeCards').addEventListener('click', function() {
+		const spreadType = document.getElementById('spreadType').value;
+		let numCards = 1;
+
+		if (spreadType === 'threeCards') {
+			numCards = 3;
+		} else if (spreadType === 'celticCross') {
+			numCards = 10;
+		}
+
+    randomizeCards(numCards); // Call the randomization function
+});
+
     // Update form when the spread type or randomize option changes
     document.getElementById('spreadType').addEventListener('change', function() {
         const spreadType = this.value;
@@ -60,6 +89,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const randomize = this.checked;
         updateCardInputs(spreadType, randomize);
     });
+	document.getElementById('randomize').addEventListener('change', function() {
+		const isChecked = this.checked;
+		document.getElementById('randomizeCards').style.display = isChecked ? 'block' : 'none'; // Show or hide the button
+	});
 
     // Form submission and API call to AWS Lambda
     document.getElementById('submitTarot').addEventListener('click', function() {
