@@ -81,3 +81,10 @@ button:hover {
     width: 100px; /* Width of the images */
     height: auto; /* Maintain aspect ratio */
 }
+
+#logo {
+    width: 100px; /* Adjust the width as necessary */
+    height: auto; /* Maintain aspect ratio */
+    margin: 20px 0; /* Add some margin around the logo */
+    display: block; /* Ensure it displays correctly */
+}
