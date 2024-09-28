@@ -2,7 +2,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const tarotCards = [
         { name: "The Fool", img: "assets/images/TheFool.jpg" },
         { name: "The Moon", img: "assets/images/TheMoon.jpg" },
-        { name: "The Hanged Man", img: "assets/images/TheHangedMan.jpg" }
+        { name: "The Hanged Man", img: "assets/images/TheHangedMan.jpg" },
+		{ name: "The Magician", img: "assets/images/TheMagician.jpg" },
+		{ name: "KnightOfSwords", img: "assets/images/KnightOfSwords.jpg" },
+		{ name: "Eight Of Pentacles", img: "assets/images/EightOfPentacles.jpg" },
+		{ name: "The Empress", img: "assets/images/TheMoon.jpg" },
+		{ name: "The Sun", img: "assets/images/TheMoon.jpg" }
         // Add more cards here
     ];
 
@@ -157,8 +162,16 @@ document.addEventListener('DOMContentLoaded', function() {
 		let cardData = {};
 
 		if (randomize) {
-			cardData.randomize = true;
+			//cardData.randomize = true;
 			cardData.spreadType = spreadType;
+			cardData.randomize = false;
+			cardData.cards = [];
+			const selects = document.querySelectorAll('.card-selection select');
+			selects.forEach(select => {
+				if (select.value) {
+					cardData.cards.push(select.value);
+				}
+			});
 		} else {
 			cardData.randomize = false;
 			cardData.cards = [];
