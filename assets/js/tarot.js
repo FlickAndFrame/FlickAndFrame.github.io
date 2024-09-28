@@ -88,12 +88,23 @@ document.addEventListener('DOMContentLoaded', function() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(cardData)
         })
-        .then(response => response.json())
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.json();
+        })
         .then(data => {
-            document.getElementById('movieSuggestion').innerText = data.body;
+           // Extract the body from the response
+           const suggestion = JSON.parse(data.body);
+
+           // Display the suggestion in a properly formatted manner
+           document.getElementById("movieSuggestion").innerHTML = suggestion.body
+            .replace(/\n/g, "<br>"); // Replace newline characters with <br> tags
         })
         .catch(error => {
-            document.getElementById('movieSuggestion').innerText = "Error retrieving movie suggestion.";
+           console.error('Error retrieving movie suggestion:', error);
+           document.getElementById("movieSuggestion").innerHTML = "Error retrieving movie suggestion.";
         });
     });
 
