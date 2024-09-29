@@ -240,3 +240,31 @@ button:hover {
 #donateSection form {
     display: inline-block;
 }
+
+#followInstagram {
+    text-align: center;  /* Centers the button */
+    margin-top: 20px;  /* Adds some space above the button */
+}
+
+.instagram-button {
+    display: inline-flex;  /* Align icon and text side by side */
+    align-items: center;  /* Vertically centers the text and image */
+    background-color: #E1306C;  /* Instagram's primary color */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;  /* Remove underline */
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;  /* Smooth hover effect */
+}
+
+.instagram-button:hover {
+    background-color: #C13584;  /* Slightly darker on hover */
+}
+
+.instagram-icon {
+    width: 20px;  /* Size of the Instagram icon */
+    height: 20px;
+    margin-right: 10px;  /* Space between icon and text */
+}
