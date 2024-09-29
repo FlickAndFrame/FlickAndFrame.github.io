@@ -22,16 +22,15 @@ function updateSelectedCards() {
     selectedCardsContainer.innerHTML = '';
 
     const selects = document.querySelectorAll('.card-selection select');
-    selects.forEach(select => {
+    selects.forEach((select, index) => {
         if (select.value) {
             const card = tarotCards.find(c => c.name === select.value);
             if (card) {
                 const cardElement = document.createElement('div');
                 cardElement.className = 'selected-card';
-                cardElement.style.margin = '0 10px';
                 cardElement.innerHTML = `
                     <img src="${card.img}" alt="${card.name}" style="width: 100px; height: auto;">
-                    <p>${card.name}</p>
+                    <p>Card ${index + 1}: ${card.name}</p>
                 `;
                 selectedCardsContainer.appendChild(cardElement);
             }
@@ -94,7 +93,6 @@ function updateCardInputs(spreadType, randomize) {
                         <option value="">Choose a card</option>
                         ${tarotCards.map(card => `<option value="${card.name}">${card.name}</option>`).join('')}
                     </select>
-                    <div class="card-image"></div>
                 </div>
             `;
         }
@@ -112,21 +110,21 @@ function updateCardInputs(spreadType, randomize) {
 // Function to update card image
 function updateCardImage(select) {
     const cardName = select.value;
-    const cardImageDiv = select.nextElementSibling;
+    //const cardImageDiv = select.nextElementSibling;
     const card = tarotCards.find(c => c.name === cardName);
 
     console.log('Selected card:', cardName);
     console.log('Found card:', card);
 
-    if (card) {
-        console.log('Setting image src to:', card.img);
-        cardImageDiv.innerHTML = `<img src="${card.img}" alt="${card.name}" style="width: 100px; height: auto;">`;
-    } else {
-        console.log('No card found, clearing image div');
-        cardImageDiv.innerHTML = '';
-    }
+    //if (card) {
+   //     console.log('Setting image src to:', card.img);
+   //     cardImageDiv.innerHTML = `<img src="${card.img}" alt="${card.name}" style="width: 100px; height: auto;">`;
+   // } else {
+   //     console.log('No card found, clearing image div');
+   //     cardImageDiv.innerHTML = '';
+   // }
 
-    console.log('Card image div HTML:', cardImageDiv.innerHTML);
+   // console.log('Card image div HTML:', cardImageDiv.innerHTML);
     updateSelectedCards();
 }
 
