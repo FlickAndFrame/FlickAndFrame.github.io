@@ -161,3 +161,51 @@ button:hover {
 .card-image img:hover {
     transform: scale(1.05);
 }
+
+/* Add these styles to your existing CSS file */
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.card-selection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 150px;
+}
+
+.card-selection select {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.card-image {
+    width: 100%;
+    text-align: center;
+}
+
+.card-image img {
+    max-width: 100%;
+    height: auto;
+}
+
+.tarot-card {
+    text-align: center;
+    width: 150px;
+}
+
+#selectedCards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.selected-card {
+    width: 150px;
+    text-align: center;
+}

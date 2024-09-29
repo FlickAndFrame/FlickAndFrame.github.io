@@ -61,7 +61,6 @@ function randomizeCards(numCards) {
     document.getElementById('selectedCards').innerHTML = '';
 }
 
-// Function to update card inputs
 function updateCardInputs(spreadType, randomize) {
     let inputFields = '';
     let numCards = 1;
@@ -73,6 +72,8 @@ function updateCardInputs(spreadType, randomize) {
     }
 
     console.log('Updating card inputs:', { spreadType, randomize, numCards });
+
+    inputFields = '<div class="card-container">';
 
     if (randomize) {
         const randomCards = getRandomCards(numCards);
@@ -88,7 +89,7 @@ function updateCardInputs(spreadType, randomize) {
         for (let i = 1; i <= numCards; i++) {
             inputFields += `
                 <div class="card-selection">
-                    <label for="card${i}">Select card ${i}:</label>
+                    <label for="card${i}">Card ${i}:</label>
                     <select id="card${i}" name="card${i}" onchange="updateCardImage(this)">
                         <option value="">Choose a card</option>
                         ${tarotCards.map(card => `<option value="${card.name}">${card.name}</option>`).join('')}
@@ -99,8 +100,13 @@ function updateCardInputs(spreadType, randomize) {
         }
     }
 
+    inputFields += '</div>';
+
     console.log('Generated input fields:', inputFields);
     document.getElementById('cardInputs').innerHTML = inputFields;
+    
+    // Clear selected cards
+    document.getElementById('selectedCards').innerHTML = '';
 }
 
 // Function to update card image
@@ -135,18 +141,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Event listener for randomize checkbox
     document.getElementById('randomize').addEventListener('change', function() {
-        const spreadType = document.getElementById('spreadType').value;
-        const randomize = this.checked;
-        updateCardInputs(spreadType, randomize);
+		const spreadType = document.getElementById('spreadType').value;
+		const randomize = this.checked;
+    
+		if (randomize) {
+			let numCards = 1;
+			if (spreadType === 'threeCards') {
+				numCards = 3;
+			} else if (spreadType === 'celticCross') {
+				numCards = 10;
+			}
+			randomizeCards(numCards);
+		} else {
+			updateCardInputs(spreadType, false);
+		}
 
-        const randomizeButton = document.getElementById('randomizeCards');
-        if (randomize) {
-            randomizeButton.style.display = 'block';
-        } else {
-            randomizeButton.style.display = 'none';
-            updateCardInputs(spreadType, false);
-        }
-    });
+		const randomizeButton = document.getElementById('randomizeCards');
+		randomizeButton.style.display = randomize ? 'block' : 'none';
+	});
 
     // Event listener for randomize button
     document.getElementById('randomizeCards').addEventListener('click', function() {
