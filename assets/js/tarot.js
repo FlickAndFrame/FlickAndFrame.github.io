@@ -6,8 +6,23 @@ const tarotCards = [
     { name: "The Magician", img: "assets/images/TheMagician.jpg" },
     { name: "Knight Of Swords", img: "assets/images/KnightOfSwords.jpg" },
     { name: "Eight Of Pentacles", img: "assets/images/EightOfPentacles.jpg" },
-    { name: "The Empress", img: "assets/images/TheMoon.jpg" },
-    { name: "The Sun", img: "assets/images/TheMoon.jpg" }
+    { name: "The Empress", img: "assets/images/TheEmpress.png" },
+    { name: "The Sun", img: "assets/images/TheSun.png" },
+	{ name: "Death", img: "assets/images/Death.png" },
+	{ name: "Judgement", img: "assets/images/Judgement.png" },
+	{ name: "Justice", img: "assets/images/Justice.png" },
+	{ name: "Strength", img: "assets/images/Strength.png" },
+	{ name: "Temperance", img: "assets/images/Temperance.png" },
+	{ name: "The Chariot", img: "assets/images/TheChariot.png" },
+	{ name: "The Emperor", img: "assets/images/TheEmperor.png" },
+	{ name: "The Hermit", img: "assets/images/TheHermit.png" },
+	{ name: "The Hierophant", img: "assets/images/TheHierophant.png" },
+	{ name: "The Hight Priestess", img: "assets/images/TheHighPriestess.png" },
+	{ name: "The Lovers", img: "assets/images/TheLovers.png" },
+	{ name: "The Star", img: "assets/images/TheStar.png" },
+	{ name: "The Tower", img: "assets/images/TheTower.png" },
+	{ name: "The World", img: "assets/images/TheWorld.png" },
+	{ name: "Wheel Of Fortune", img: "assets/images/WheelOfFortune.png" },
     // Add more cards here if needed
 ];
 
