@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: "The Moon", img: "assets/images/TheMoon.jpg" },
         { name: "The Hanged Man", img: "assets/images/TheHangedMan.jpg" },
 		{ name: "The Magician", img: "assets/images/TheMagician.jpg" },
-		{ name: "KnightOfSwords", img: "assets/images/KnightOfSwords.jpg" },
+		{ name: "Knight Of Swords", img: "assets/images/KnightOfSwords.jpg" },
 		{ name: "Eight Of Pentacles", img: "assets/images/EightOfPentacles.jpg" },
 		{ name: "The Empress", img: "assets/images/TheMoon.jpg" },
 		{ name: "The Sun", img: "assets/images/TheMoon.jpg" }
@@ -72,6 +72,8 @@ document.addEventListener('DOMContentLoaded', function() {
 			numCards = 10;
 		}
 
+		console.log('Updating card inputs:', { spreadType, randomize, numCards });
+
 		if (randomize) {
 			const randomCards = getRandomCards(numCards);
 			randomCards.forEach((card, index) => {
@@ -97,6 +99,8 @@ document.addEventListener('DOMContentLoaded', function() {
 			}
 		}
 
+		console.log('Generated input fields:', inputFields);
+	
 		document.getElementById('cardInputs').innerHTML = inputFields;
 	}
 
@@ -105,14 +109,24 @@ document.addEventListener('DOMContentLoaded', function() {
 		const cardImageDiv = select.nextElementSibling;
 		const card = tarotCards.find(c => c.name === cardName);
 
+		console.log('Selected card:', cardName);
+		console.log('Found card:', card);
+
 		if (card) {
+			console.log('Setting image src to:', card.img);
 			cardImageDiv.innerHTML = `<img src="${card.img}" alt="${card.name}" style="width: 100px; height: auto;">`;
 		} else {
+			console.log('No card found, clearing image div');
 			cardImageDiv.innerHTML = '';
 		}
 
+		// Log the current HTML of the cardImageDiv
+		console.log('Card image div HTML:', cardImageDiv.innerHTML);
+
 		updateSelectedCards();
 	}
+	
+	
 	document.getElementById('randomizeCards').addEventListener('click', function() {
 		const spreadType = document.getElementById('spreadType').value;
 		let numCards = 1;
