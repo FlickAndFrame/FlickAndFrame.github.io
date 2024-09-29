@@ -50,11 +50,11 @@ function selectCard(cardName) {
 function randomizeCards(numCards) {
     const randomCards = getRandomCards(numCards);
     let inputFields = '';
-    randomCards.forEach(card => {
+    randomCards.forEach((card, index) => {
         inputFields += `
             <div class="tarot-card">
                 <img src="${card.img}" alt="${card.name}">
-                <p>${card.name}</p>
+                <p>Card ${index + 1}: ${card.name}</p>
             </div>
         `;
     });
