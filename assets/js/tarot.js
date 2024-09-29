@@ -11,6 +11,8 @@ const tarotCards = [
     // Add more cards here if needed
 ];
 
+const TMDB_API_KEY = 'fb4ca4f02a295416f2f10ecbdf84a0e3'; // Replace with your actual TMDb API key
+
 // Function to get random cards
 function getRandomCards(num) {
     return tarotCards.sort(() => 0.5 - Math.random()).slice(0, num);
@@ -110,22 +112,46 @@ function updateCardInputs(spreadType, randomize) {
 // Function to update card image
 function updateCardImage(select) {
     const cardName = select.value;
-    //const cardImageDiv = select.nextElementSibling;
     const card = tarotCards.find(c => c.name === cardName);
 
     console.log('Selected card:', cardName);
     console.log('Found card:', card);
 
-    //if (card) {
-   //     console.log('Setting image src to:', card.img);
-   //     cardImageDiv.innerHTML = `<img src="${card.img}" alt="${card.name}" style="width: 100px; height: auto;">`;
-   // } else {
-   //     console.log('No card found, clearing image div');
-   //     cardImageDiv.innerHTML = '';
-   // }
-
-   // console.log('Card image div HTML:', cardImageDiv.innerHTML);
     updateSelectedCards();
+}
+
+function extractMovieInfo(suggestionText) {
+    // Regular expression to match the pattern "Movie Title" (YYYY)
+    const regex = /"([^"]+)"\s*\((\d{4})\)/;
+    
+    // Get the first few sentences (let's say 3)
+    const firstFewSentences = suggestionText.split(/[.!?]/).slice(0, 3).join('. ');
+    
+    // Search for the pattern in the first few sentences
+    const match = firstFewSentences.match(regex);
+    
+    if (match) {
+        return {
+            title: match[1],
+            year: match[2]
+        };
+    }
+    
+    return { title: null, year: null };
+}
+
+function fetchMoviePoster(movieTitle, movieYear) {
+    const searchUrl = `https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(movieTitle)}&year=${movieYear}`;
+    
+    return fetch(searchUrl)
+        .then(response => response.json())
+        .then(data => {
+            if (data.results && data.results.length > 0) {
+                const posterPath = data.results[0].poster_path;
+                return posterPath ? `https://image.tmdb.org/t/p/w500${posterPath}` : null;
+            }
+            return null;
+        });
 }
 
 // Main event listener
@@ -139,24 +165,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Event listener for randomize checkbox
     document.getElementById('randomize').addEventListener('change', function() {
-		const spreadType = document.getElementById('spreadType').value;
-		const randomize = this.checked;
+        const spreadType = document.getElementById('spreadType').value;
+        const randomize = this.checked;
     
-		if (randomize) {
-			let numCards = 1;
-			if (spreadType === 'threeCards') {
-				numCards = 3;
-			} else if (spreadType === 'celticCross') {
-				numCards = 10;
-			}
-			randomizeCards(numCards);
-		} else {
-			updateCardInputs(spreadType, false);
-		}
+        if (randomize) {
+            let numCards = 1;
+            if (spreadType === 'threeCards') {
+                numCards = 3;
+            } else if (spreadType === 'celticCross') {
+                numCards = 10;
+            }
+            randomizeCards(numCards);
+        } else {
+            updateCardInputs(spreadType, false);
+        }
 
-		const randomizeButton = document.getElementById('randomizeCards');
-		randomizeButton.style.display = randomize ? 'block' : 'none';
-	});
+        const randomizeButton = document.getElementById('randomizeCards');
+        randomizeButton.style.display = randomize ? 'block' : 'none';
+    });
 
     // Event listener for randomize button
     document.getElementById('randomizeCards').addEventListener('click', function() {
@@ -212,9 +238,26 @@ document.addEventListener('DOMContentLoaded', function() {
             // Extract the body from the response
             const suggestion = JSON.parse(data.body);
 
-            // Display the suggestion in a properly formatted manner
-            document.getElementById("movieSuggestion").innerHTML = suggestion.body
-                .replace(/\n/g, "<br>"); // Replace newline characters with <br> tags
+            // Extract the movie title and year from the suggestion
+            const { title, year } = extractMovieInfo(suggestion.body);
+
+            // Fetch the movie poster
+            if (title) {
+                fetchMoviePoster(title, year)
+                    .then(posterUrl => {
+                        let htmlContent = suggestion.body.replace(/\n/g, "<br>");
+                        if (posterUrl) {
+                            htmlContent = `<img src="${posterUrl}" alt="Movie Poster" id="moviePoster"><br>${htmlContent}`;
+                        }
+                        document.getElementById("movieSuggestion").innerHTML = htmlContent;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching movie poster:', error);
+                        document.getElementById("movieSuggestion").innerHTML = suggestion.body.replace(/\n/g, "<br>");
+                    });
+            } else {
+                document.getElementById("movieSuggestion").innerHTML = suggestion.body.replace(/\n/g, "<br>");
+            }
         })
         .catch(error => {
             console.error('Error retrieving movie suggestion:', error);

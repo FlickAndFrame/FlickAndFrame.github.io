@@ -268,3 +268,12 @@ button:hover {
     height: 20px;
     margin-right: 10px;  /* Space between icon and text */
 }
+
+#moviePoster {
+    max-width: 200px;
+    height: auto;
+    display: block;
+    margin: 20px auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
