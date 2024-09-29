@@ -125,7 +125,7 @@ function extractMovieInfo(suggestionText) {
     const regex = /"([^"]+)"\s*\((\d{4})\)/;
     
     // Get the first few sentences (let's say 3)
-    const firstFewSentences = suggestionText.split(/[.!?]/).slice(0, 3).join('. ');
+    const firstFewSentences = suggestionText.split(/[.!?]/).slice(0, 10).join('. ');
     
     // Search for the pattern in the first few sentences
     const match = firstFewSentences.match(regex);
