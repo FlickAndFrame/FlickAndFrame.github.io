@@ -179,6 +179,27 @@ function updateCardInputs(spreadType, randomize) {
     document.getElementById('selectedCards').innerHTML = '';
 }
 
+let suggestionCount = 0;
+
+function updateSuggestionCounter() {
+    document.getElementById('suggestionCount').textContent = suggestionCount;
+}
+
+function setupDisclaimerToggle() {
+    const disclaimerToggle = document.getElementById('disclaimerToggle');
+    const disclaimerContent = document.getElementById('disclaimerContent');
+
+    disclaimerToggle.addEventListener('click', function() {
+        if (disclaimerContent.style.display === 'none' || disclaimerContent.style.display === '') {
+            disclaimerContent.style.display = 'block';
+            disclaimerToggle.textContent = 'Hide Disclaimer';
+        } else {
+            disclaimerContent.style.display = 'none';
+            disclaimerToggle.textContent = 'Show Disclaimer';
+        }
+    });
+}
+
 // Function to update card image
 function updateCardImage(select) {
     const cardName = select.value;
@@ -291,6 +312,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         }
+		
+		// Increment the suggestion count
+        suggestionCount++;
+        updateSuggestionCounter();
 
         // Make an AJAX request to AWS Lambda via API Gateway
         fetch('https://ffb93g9xme.execute-api.eu-west-3.amazonaws.com/Deploy', {
@@ -337,4 +362,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize with default values
     updateCardInputs(document.getElementById('spreadType').value, document.getElementById('randomize').checked);
+
+	// Set up the disclaimer toggle
+    setupDisclaimerToggle();
+	
 });
