@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Caveat&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap');
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -330,10 +330,12 @@ button:hover {
 }
 
 .handwritten-title {
-    font-family: 'Caveat', cursive;
-    font-size: 3em;
+    font-family: 'Pinyon Script', cursive;
+    font-size: 3.5em;
     color: #2c3e50;
     margin-bottom: 30px;
     text-align: center;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    font-weight: normal;
+    line-height: 1.2;
 }
