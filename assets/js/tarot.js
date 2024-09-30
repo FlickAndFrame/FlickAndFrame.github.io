@@ -334,7 +334,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('totalCount').textContent = data.totalCount;
 
             // Extract the suggestion from the response
-            const suggestion = JSON.parse(data.suggestion);
+            const suggestion = data.suggestion;
 			
 			// Extract the body from the response
             //const suggestion = JSON.parse(data.body);
