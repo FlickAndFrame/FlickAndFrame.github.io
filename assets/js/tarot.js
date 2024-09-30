@@ -330,7 +330,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return response.json();
         })
         .then(data => {
-            // Extract the body from the response
+            // Extract the body from the response of the ai
             const suggestion = JSON.parse(data.body);
 
             // Extract the movie title and year from the suggestion
