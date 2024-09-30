@@ -340,13 +340,13 @@ document.addEventListener('DOMContentLoaded', function() {
             //const suggestion = JSON.parse(data.body);
 
             // Extract the movie title and year from the suggestion
-            const { title, year } = extractMovieInfo(suggestion.body);
+            const { title, year } = extractMovieInfo(suggestion);
 
             // Fetch the movie poster
             if (title) {
                 fetchMoviePoster(title, year)
                     .then(posterUrl => {
-                        let htmlContent = suggestion.body.replace(/\n/g, "<br>");
+                        let htmlContent = suggestion.replace(/\n/g, "<br>");
                         if (posterUrl) {
                             htmlContent = `<img src="${posterUrl}" alt="Movie Poster" id="moviePoster"><br>${htmlContent}`;
                         }
@@ -354,10 +354,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     })
                     .catch(error => {
                         console.error('Error fetching movie poster:', error);
-                        document.getElementById("movieSuggestion").innerHTML = suggestion.body.replace(/\n/g, "<br>");
+                        document.getElementById("movieSuggestion").innerHTML = suggestion.replace(/\n/g, "<br>");
                     });
             } else {
-                document.getElementById("movieSuggestion").innerHTML = suggestion.body.replace(/\n/g, "<br>");
+                document.getElementById("movieSuggestion").innerHTML = suggestion.replace(/\n/g, "<br>");
             }
         })
         .catch(error => {
