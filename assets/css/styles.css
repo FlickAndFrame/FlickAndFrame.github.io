@@ -284,36 +284,47 @@ button:hover {
     font-size: 18px;
 }
 
-#disclaimerContainer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: #f8f8f8;
-    border-top: 1px solid #ddd;
-    padding: 10px;
-    text-align: center;
+#buttonContainer, #donateContainer, #disclaimerContainer {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
 }
 
 #disclaimerToggle {
-    background-color: #4CAF50;
-    border: none;
-    color: white;
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    color: #333;
     padding: 10px 20px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    margin: 4px 2px;
     cursor: pointer;
     border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+#disclaimerToggle:hover {
+    background-color: #e8e8e8;
 }
 
 #disclaimerContent {
-    margin-top: 10px;
+    max-width: 600px;
+    margin: 20px auto;
     text-align: left;
-    padding: 10px;
+    padding: 20px;
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+#disclaimerContent h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+#disclaimerContent p {
+    line-height: 1.6;
+    color: #666;
 }

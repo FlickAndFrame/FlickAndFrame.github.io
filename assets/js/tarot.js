@@ -195,7 +195,7 @@ function setupDisclaimerToggle() {
             disclaimerToggle.textContent = 'Hide Disclaimer';
         } else {
             disclaimerContent.style.display = 'none';
-            disclaimerToggle.textContent = 'Show Disclaimer';
+            disclaimerToggle.textContent = 'Disclaimer';
         }
     });
 }
