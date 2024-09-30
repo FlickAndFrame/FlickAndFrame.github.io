@@ -314,8 +314,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 		
 		// Increment the suggestion count
-        //suggestionCount++;
-        //updateSuggestionCounter();
+        suggestionCount++;
+        updateSuggestionCounter();
 
         // Make an AJAX request to AWS Lambda via API Gateway
         fetch('https://ffb93g9xme.execute-api.eu-west-3.amazonaws.com/Deploy', {
@@ -330,14 +330,8 @@ document.addEventListener('DOMContentLoaded', function() {
             return response.json();
         })
         .then(data => {
-            // Update the total count
-            document.getElementById('totalCount').textContent = data.totalCount;
-
-            // Extract the suggestion from the response
-            const suggestion = data.suggestion;
-			
-			// Extract the body from the response
-            //const suggestion = JSON.parse(data.body);
+            // Extract the body from the response
+            const suggestion = JSON.parse(data.body);
 
             // Extract the movie title and year from the suggestion
             const { title, year } = extractMovieInfo(suggestion.body);
